@@ -5,7 +5,6 @@ import { HomeDashboardComponent } from './dashboard/home-dashboard/home-dashboar
 import { ProductComponent } from './dashboard/product/product.component';
 import { DashboardComponent } from './dashboard/dashboard/dashboard.component';
 import { CategoryComponent } from './dashboard/category/category.component';
-import { CreateCategoryComponent } from './dashboard/category/create-category/create-category.component';
 
 const routes: Routes = [
   { path: '', component: HomeEcommerceComponent, children: [] },

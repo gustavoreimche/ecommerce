@@ -4,7 +4,6 @@ import { HomeDashboardComponent } from './home-dashboard/home-dashboard.componen
 import { ProductComponent } from './product/product.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { CategoryComponent } from './category/category.component';
-import { CreateCategoryComponent } from './category/create-category/create-category.component';
 
 const routes: Routes = [];
 
@@ -18,7 +17,6 @@ const routes: Routes = [];
           { path: 'products', component: ProductComponent },
           { path: '', component: DashboardComponent },
           { path: 'categorys', component: CategoryComponent },
-          { path: 'categorys/create', component: CreateCategoryComponent },
         ],
       },
     ]),

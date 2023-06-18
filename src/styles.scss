@@ -13,7 +13,7 @@ $primary: mat-palette($mat-gray);
 $secondary: mat-palette($mat-gray, 200);
 $warn: mat-palette($mat-red, 900);
 
-$custom-theme: mat-dark-theme($primary, $secondary, $warn);
+$custom-theme: mat-light-theme($primary, $secondary, $warn);
 
 @include angular-material-theme($custom-theme);
 

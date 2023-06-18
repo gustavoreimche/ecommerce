@@ -10,11 +10,14 @@ import { LoginComponent } from './login/login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { CategoryComponent } from './category/category.component';
 import { HomeDashboardComponent } from './home-dashboard/home-dashboard.component';
-import { CreateCategoryComponent } from './category/create-category/create-category.component';
 import { ToastContainerComponent } from '../shared/components/toast/toast-container.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -26,15 +29,18 @@ import { MatCardModule } from '@angular/material/card';
     DashboardComponent,
     CategoryComponent,
     HomeDashboardComponent,
-    CreateCategoryComponent,
     ToastContainerComponent,
   ],
   imports: [
     CommonModule,
+    MatTableModule,
+    MatSortModule,
+    MatPaginatorModule,
     DashboardRoutingModule,
     NgbModule,
     FormsModule,
     MatCardModule,
+    HttpClientModule,
   ],
   exports: [ToastContainerComponent],
 })
