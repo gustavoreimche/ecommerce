@@ -5,4 +5,6 @@ import { Component } from '@angular/core';
   templateUrl: './home-dashboard.component.html',
   styleUrls: ['./home-dashboard.component.scss'],
 })
-export class HomeDashboardComponent {}
+export class HomeDashboardComponent {
+  isLogged = true;
+}

@@ -1,1 +1,22 @@
-<p>nav works!</p>
+<nav class="sidebar bg-zinc-800 text-white">
+  <div class="nav flex flex-col fs-4">
+    <button class="nav-item hover:bg-zinc-700 text-left p-3 focus:bg-zinc-700" routerLink="/admin">
+      <i class="bi bi-house mr-3"></i>
+      <span>HOME</span>
+    </button>
+    <button class="nav-item hover:bg-zinc-700 text-left p-3 focus:bg-zinc-700" routerLink="/admin/products"
+      routerLinkActive="active">
+      <i class="bi bi-bag mr-3"></i>
+      <span>PRODUTOS</span>
+    </button>
+    <button class="nav-item hover:bg-zinc-700 text-left p-3 focus:bg-zinc-700" routerLink="/admin/categorys"
+      routerLinkActive="active">
+      <i class="bi bi-bookmark mr-3"></i>
+      <span>CATEGORIAS</span>
+    </button>
+  </div>
+</nav>
+<content class="col position-fixed top-14 left-64 p-4 max-w-full h-full overflow-auto content">
+  <app-toast-container></app-toast-container>
+  <router-outlet></router-outlet>
+</content>

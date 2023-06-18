@@ -2,10 +2,19 @@ import { HomeEcommerceComponent } from './ecommerce/home/home.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeDashboardComponent } from './dashboard/home-dashboard/home-dashboard.component';
+import { ProductComponent } from './dashboard/product/product.component';
+import { DashboardComponent } from './dashboard/dashboard/dashboard.component';
+import { CategoryComponent } from './dashboard/category/category.component';
+import { CreateCategoryComponent } from './dashboard/category/create-category/create-category.component';
 
 const routes: Routes = [
-  { path: '', component: HomeEcommerceComponent },
-  { path: 'admin', component: HomeDashboardComponent },
+  { path: '', component: HomeEcommerceComponent, children: [] },
+  {
+    path: 'admin',
+    loadChildren: () =>
+      import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
+  },
+  { path: '**', redirectTo: '', pathMatch: 'full' },
 ];
 
 @NgModule({

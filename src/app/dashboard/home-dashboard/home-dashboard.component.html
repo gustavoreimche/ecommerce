@@ -1,1 +1,7 @@
-<app-header></app-header>
+<div class="container-fluid">
+  <app-header></app-header>
+  <div class="row">
+    <app-nav *ngIf="isLogged"></app-nav>
+    <app-login *ngIf="!isLogged" class="position-fixed top-14 p-0"></app-login>
+  </div>
+</div>
