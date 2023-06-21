@@ -5,22 +5,20 @@ import { ProductComponent } from './product/product.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { CategoryComponent } from './category/category.component';
 
-const routes: Routes = [];
+const routes: Routes = [
+  {
+    path: '',
+    component: HomeDashboardComponent,
+    children: [
+      { path: 'products', component: ProductComponent },
+      { path: '', component: DashboardComponent },
+      { path: 'categorys', component: CategoryComponent },
+    ],
+  },
+];
 
 @NgModule({
-  imports: [
-    RouterModule.forChild([
-      {
-        path: '',
-        component: HomeDashboardComponent,
-        children: [
-          { path: 'products', component: ProductComponent },
-          { path: '', component: DashboardComponent },
-          { path: 'categorys', component: CategoryComponent },
-        ],
-      },
-    ]),
-  ],
+  imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
 export class DashboardRoutingModule {}

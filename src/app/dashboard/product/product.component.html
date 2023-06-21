@@ -1,1 +1,188 @@
-<p>product works!</p>
+<form class="p-3 rounded-lg shadow">
+  <div class="mb-3">
+    <h1>Produto</h1>
+  </div>
+  <!-- Nome -->
+  <div [classList]="isMobile ? 'flex flex-column gap-3 mb-3' : 'flex gap-3 mb-3' ">
+
+    <div class="flex-2 form-floating">
+      <input type="text" class="form-control" id="nome" placeholder="exemplo" [(ngModel)]="product.name" name="name">
+      <label for="nome">Nome</label>
+    </div>
+
+    <!-- categoria -->
+    <div class="flex-auto form-floating">
+      <select class="form-select" id="floatingSelect" name="idCategory" [(ngModel)]="idCategory"
+        (ngModelChange)="getCategoryName()">
+        <option selected value=""> Selecione uma opção... </option>
+        <option *ngFor="let category of categorys" value={{category._id}}> {{category.name}} </option>
+      </select>
+      <label for="floatingSelect">Categoria</label>
+    </div>
+
+  </div>
+
+  <!-- Descrição -->
+  <div class="form-floating mb-3">
+    <textarea type="text" class="form-control" id="desc" placeholder="exemplo" [(ngModel)]="product.description"
+      name="description"></textarea>
+    <label for="desc">Descrição</label>
+  </div>
+
+  <div [classList]="isMobile ? 'flex flex-column gap-3 mb-3' : 'flex gap-3 mb-3' ">
+
+    <!-- Price -->
+    <div class=" flex-1 input-group">
+      <span class="input-group-text">R$</span>
+      <div class="form-floating">
+        <input type="number" class="form-control" id="price" placeholder="exemplo" [(ngModel)]="product.price"
+          name="price">
+        <label for="price">Preço</label>
+      </div>
+    </div>
+
+    <!-- Quantity -->
+    <div class="form-floating flex-1">
+      <input type="number" class="form-control" id="quantity" placeholder="exemplo" [(ngModel)]="product.quantity"
+        name="quantity">
+      <label for="quantity">Quantidade</label>
+    </div>
+
+  </div>
+
+  <div class="flex mb-3 gap-3">
+
+    <!-- Image -->
+    <div class="flex-auto form-floating ">
+      <input type="text" class="form-control" id="imageUrl" placeholder="exemplo" [(ngModel)]="imageUrl"
+        name="imageUrl">
+      <label for="imageUrl">URL Imagem</label>
+    </div>
+
+    <button class="max-w-max btn btn-outline-dark" (click)="addImage()"><i
+        class="bi bi-plus-square-fill h-full"></i></button>
+  </div>
+
+  <table class="table" *ngIf="product.imageUrl.length > 0">
+    <thead>
+      <tr>
+        <th scope="col">Imagem</th>
+        <th scope="col">Preview</th>
+        <th scope="col">Ação</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let image of product.imageUrl; let i = index" class="align-middle h-8">
+        <td scope="row">Imagem {{i + 1}} </td>
+        <td>
+          <img src="{{image}}" alt="" class="w-11">
+        </td>
+        <td>
+          <button class="btn btn-dark rounded" (click)="deleteImage(image)">-</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+
+  <!-- preview -->
+  <div class="flex justify-center mb-3">
+
+
+    <button class="btn btn-dark" (click)="preview = !preview" *ngIf="!preview">Vizualizar preview</button>
+
+    <div class="card shadow" style="width: 18rem;" *ngIf="preview">
+      <ngb-carousel class="h-52">
+        <ng-template ngbSlide *ngFor="let image of product.imageUrl" class="text-black">
+          <div class="picsum-img-wrapper">
+            <img [src]="image" alt="preview" class="card-img-top h-52 object-cover" />
+          </div>
+        </ng-template>
+      </ngb-carousel>
+      <div class="card-body">
+        <h5 class="card-title">Nome: {{product.name}}</h5>
+        <p class="card-text">Descrição: {{product.description}}</p>
+        <p class="card-text">Categoria: {{product.category?.name}}</p>
+        <p class="card-text">R$ {{product.price?.toFixed(2)}}</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Actions -->
+  <div class="flex flex-row-reverse justify-start w-full gap-2">
+    <button class="btn btn-primary" (click)="submit()">SALVAR</button>
+    <button class="btn btn-danger" (click)="cancel()">CANCELAR</button>
+  </div>
+
+</form>
+
+<div class="rounded-lg shadow mt-4 py-3">
+  <div class="form-floating mx-3">
+    <input type="email" class="form-control" id="nome" placeholder="Pesquisar..." (keyup)="applyFilter($event)">
+    <label for="nome">Filtro</label>
+  </div>
+  <table mat-table [dataSource]="dataSource" matSort #sort>
+    <!-- Id Column -->
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Id</th>
+      <td mat-cell *matCellDef="let row">
+        {{ row._id }}
+      </td>
+    </ng-container>
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Nome</th>
+      <td mat-cell *matCellDef="let row">
+        {{ row.name }}
+      </td>
+    </ng-container>
+    <!-- description Column -->
+    <ng-container matColumnDef="description">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Descrição</th>
+      <td mat-cell *matCellDef="let row">
+        {{ row.description }}
+      </td>
+    </ng-container>
+
+    <!-- price Column -->
+    <ng-container matColumnDef="price">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Preço</th>
+      <td mat-cell *matCellDef="let row">
+        {{ row.price | currency:'BRL':'symbol':'1.2-2':'pt-BR'}}
+      </td>
+    </ng-container>
+
+    <!-- quantity Column -->
+    <ng-container matColumnDef="quantity">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Quantidade</th>
+      <td mat-cell *matCellDef="let row">
+        {{ row.quantity }}
+      </td>
+    </ng-container>
+
+    <!-- Action Column -->
+    <ng-container matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef>Ações</th>
+      <td mat-cell *matCellDef="let row">
+        <button mat-icon-button (click)="this.edit(row._id)" class="edit">
+          <i class="material-icons">edit</i>
+        </button>
+        <button mat-icon-button (click)="this.delete(row._id)" class="delete">
+          <i class="material-icons">delete</i>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="isMobile ? displayedColumnsMobile : displayedColumns"></tr>
+    <tr mat-row *matRowDef="
+        let row;
+        columns: isMobile ? displayedColumnsMobile : displayedColumns
+      "></tr>
+
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell" colspan="4">Nenhum produto encontrado!</td>
+    </tr>
+  </table>
+  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Paginator"></mat-paginator>
+</div>

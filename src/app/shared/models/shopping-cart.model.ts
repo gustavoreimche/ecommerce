@@ -1,10 +1,10 @@
-import { IProduct } from './product.model';
+import { ICartItem } from './cart-item.model';
 import { IUser } from './user.model';
 
 export interface IShoppingCart {
-  id: string;
-  user: IUser;
-  total: number;
-  products: IProduct[];
-  expireDate: Date;
+  _id?: string;
+  user?: IUser;
+  total?: number;
+  cartItems?: ICartItem[];
+  expireDate?: Date;
 }

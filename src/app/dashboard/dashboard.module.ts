@@ -1,5 +1,5 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { CommonModule, registerLocaleData } from '@angular/common';
 
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { NavComponent } from './template/nav/nav.component';
@@ -18,6 +18,11 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { HttpClientModule } from '@angular/common/http';
+import { defineElement } from 'lord-icon-element';
+import lottie from 'lottie-web';
+import localePt from '@angular/common/locales/pt';
+
+registerLocaleData(localePt);
 
 @NgModule({
   declarations: [
@@ -43,5 +48,10 @@ import { HttpClientModule } from '@angular/common/http';
     HttpClientModule,
   ],
   exports: [ToastContainerComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class DashboardModule {}
+export class DashboardModule {
+  constructor() {
+    defineElement(lottie.loadAnimation);
+  }
+}

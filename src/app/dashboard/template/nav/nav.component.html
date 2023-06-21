@@ -1,23 +1,36 @@
 <nav class="sidebar bg-zinc-800 text-white" *ngIf="!isMobile">
   <div class="nav flex flex-col fs-5">
-    <button class="nav-item hover:bg-zinc-700 text-left p-3 focus:bg-zinc-700" routerLink="/admin">
-      <i class="bi bi-house mr-3"></i>
+    <button class="nav-item flex hover:bg-zinc-700 text-left p-3 focus:bg-zinc-700" routerLink="/admin">
+      <img src="./../../../../assets/icons/system-outline-41-home.svg" class="w-7 h-7 mr-3" />
       <span>HOME</span>
     </button>
-    <button class="nav-item hover:bg-zinc-700 text-left p-3 focus:bg-zinc-700" routerLink="/admin/products"
+    <button class="nav-item flex hover:bg-zinc-700 text-left p-3 focus:bg-zinc-700" routerLink="/admin/products"
       routerLinkActive="active">
-      <i class="bi bi-bag mr-3"></i>
+      <img src="./../../../../assets/icons/system-outline-64-shopping-bag.svg" class=" w-7 h-7 mr-3" />
       <span>PRODUTOS</span>
     </button>
-    <button class="nav-item hover:bg-zinc-700 text-left p-3 focus:bg-zinc-700" routerLink="/admin/categorys"
+    <button class="nav-item flex hover:bg-zinc-700 text-left p-3 focus:bg-zinc-700" routerLink="/admin/categorys"
       routerLinkActive="active">
-      <i class="bi bi-bookmark mr-3"></i>
+      <img src="./../../../../assets/icons/system-outline-146-label.svg" class="w-7 h-7 mr-3" />
       <span>CATEGORIAS</span>
     </button>
   </div>
 </nav>
+<nav class="position-fixed h-full left-0 top-14 w-12 bg-zinc-800 text-white" *ngIf="isMobile">
+  <div class="nav flex flex-col fs-6">
+    <button class="nav-item hover:bg-zinc-700 p-2 h-12 focus:bg-zinc-700 text-center" routerLink="/admin">
+      <lord-icon src="https://cdn.lordicon.com/osuxyevn.json" trigger="click" colors="primary:#ffffff"></lord-icon>
+    </button>
+    <button class="nav-item hover:bg-zinc-700 text-center p-2 h-12 focus:bg-zinc-700" routerLink="/admin/products">
+      <lord-icon src="https://cdn.lordicon.com/medpcfcy.json" trigger="click" colors="primary:#ffffff"></lord-icon>
+    </button>
+    <button class="nav-item hover:bg-zinc-700 text-center p-2 h-12 focus:bg-zinc-700" routerLink="/admin/categorys">
+      <lord-icon src="https://cdn.lordicon.com/pmegrqxm.json" trigger="click" colors="primary:#ffffff"></lord-icon>
+    </button>
+  </div>
+</nav>
 <content
-  [classList]="isMobile?'position-fixed top-14 left-0 bottom-0 p-2 overflow-auto':'position-fixed top-14 bottom-0 left-64 p-4 max-w-full overflow-auto content'">
+  [classList]="isMobile?'position-fixed top-14 left-12 bottom-0 p-2 content-mobile overflow-auto':'position-fixed top-14 bottom-0 left-64 p-4 overflow-auto content'">
   <app-toast-container></app-toast-container>
   <router-outlet></router-outlet>
 </content>

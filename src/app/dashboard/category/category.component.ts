@@ -33,22 +33,46 @@ export class CategoryComponent implements OnInit {
 
   categorys: ICategory[] = [];
 
+  isEdit = false;
+
   displayedColumns = ['name', 'description', 'action'];
 
   submit() {
-    this.categoryService.create(this.category).subscribe(
-      (response) => {
-        this.toast.sucess('Saved successfully');
-        console.log(response);
-        this.category = {
-          name: '',
-          description: '',
-        };
-      },
-      (error) => {
-        this.toast.error(error.message);
-      }
-    );
+    if (!this.isEdit) {
+      this.categoryService.create(this.category).subscribe(
+        (response) => {
+          this.toast.sucess('Saved successfully');
+          console.log(response);
+          this.category = {
+            name: '',
+            description: '',
+          };
+          this.load();
+        },
+        (error) => {
+          this.toast.error(error.message);
+        }
+      );
+    } else {
+      console.log(this.category);
+      this.categoryService
+        .update(this.category._id as string, this.category)
+        .subscribe(
+          (response) => {
+            this.toast.sucess('Saved successfully');
+            console.log(response);
+            this.category = {
+              _id: '',
+              name: '',
+              description: '',
+            };
+            this.load();
+          },
+          (error) => {
+            this.toast.error(error.message);
+          }
+        );
+    }
   }
 
   cancel() {
@@ -75,19 +99,20 @@ export class CategoryComponent implements OnInit {
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
-    console.log(filterValue);
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
   edit(id: string): void {
+    this.isEdit = true;
     this.categoryService.get(id).subscribe((category) => {
       this.category = category;
     });
   }
 
   delete(id: string): void {
-    this.categoryService.get(id).subscribe((category) => {
-      this.category = category;
+    this.categoryService.delete(id).subscribe(() => {
+      this.toast.sucess(`Categoria deletada com suesso!`);
+      this.load();
     });
   }
 }

@@ -1,11 +1,12 @@
 import { ICategory } from './category.model';
 
 export interface IProduct {
-  id?: string;
+  _id?: string;
   name: string;
-  category: ICategory;
+  category: ICategory | null;
   description: string;
-  price: number;
-  imageUrl: string;
-  quantity: number;
+  price: number | null;
+  quantity: number | null;
+  imageUrl: string[];
+  quantityCart?: number; // variável apra definir a quantidade de produtos no carrinho
 }
