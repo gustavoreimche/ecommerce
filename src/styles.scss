@@ -1,3 +1,5 @@
+/* eslint-disable-next-line */
+
 @import "~bootstrap/dist/css/bootstrap.min.css";
 @import "bootstrap/scss/bootstrap";
 @import "@angular/material/theming";
@@ -6,6 +8,12 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+$custom-typography: mat-typography-config(
+  $font-family: "Roboto, monospace",
+  $headline: mat-typography-level(32px, 48px, 700),
+  $body-1: mat-typography-level(16px, 24px, 500),
+);
 
 @include mat-core();
 
@@ -16,11 +24,10 @@ $warn: mat-palette($mat-red, 900);
 $custom-theme: mat-light-theme($primary, $secondary, $warn);
 
 @include angular-material-theme($custom-theme);
+@include mat-base-typography($custom-typography);
 
 // Seu código SCSS personalizado abaixo...
-
 /* Importing Bootstrap SCSS file. */
-
 html,
 body {
   height: 100%;
@@ -29,3 +36,10 @@ body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
+
+// .carousel-control-next-icon {
+//   background-image: url(./assets/icons/arrow_forward_ios_black_24dp.svg) !important;
+// }
+// .carousel-control-prev-icon {
+//   background-image: url(./assets/icons/arrow_back_ios_new_FILL0_wght400_GRAD0_opsz48.svg) !important;
+// }
