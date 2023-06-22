@@ -46,12 +46,17 @@
       <td scope="row"> {{cartItems.product?.name}} </td>
       <td>{{cartItems.product?.price | currency:'BRL':'symbol':'1.2-2':'pt-BR'}}</td>
       <td>
-        <button class="btn btn-dark rounded"
-          (click)="dicraseCartItemFromShoppingCart(cartItems._id ? cartItems._id : '', cartItems)">-</button>
+        <button mat-mini-fab class="bg-black rounded-circle w-7 h-7 align-middle"
+          (click)="dicraseCartItemFromShoppingCart(cartItems._id ? cartItems._id : '', cartItems)"><i
+            class="material-icons text-white">remove</i></button>
         {{cartItems.quantity}}
-        <button class="btn btn-dark rounded"
-          (click)="incraseCartItemFromShoppingCart(cartItems._id ? cartItems._id : '', cartItems)">+</button>
+        <button mat-mini-fab class="bg-black rounded-circle w-7 h-7 align-middle"
+          (click)="incraseCartItemFromShoppingCart(cartItems._id ? cartItems._id : '', cartItems)"><i
+            class="material-icons text-white">add</i></button>
       </td>
     </tr>
   </tbody>
 </table>
+{{shoppingCart.total | currency:'BRL':'symbol':'1.2-2':'pt-BR'}}
+
+<button class="btn btn-primary">Fechar pedido</button>

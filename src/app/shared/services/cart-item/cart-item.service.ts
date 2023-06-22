@@ -12,7 +12,7 @@ export class CartItemService {
 
   // REQS
 
-  url = environment.apiUrl + '/cartItem';
+  url = environment.apiUrl + '/cartItems';
 
   getAll(): Observable<ICartItem[]> {
     return this.http.get<ICartItem[]>(`${this.url}`);
@@ -32,5 +32,13 @@ export class CartItemService {
 
   delete(id: string): Observable<ICartItem> {
     return this.http.delete<ICartItem>(`${this.url}/${id}`);
+  }
+
+  increment(id: string): Observable<ICartItem> {
+    return this.http.patch<ICartItem>(`${this.url}/increment/${id}`, {});
+  }
+
+  decrement(id: string): Observable<ICartItem> {
+    return this.http.patch<ICartItem>(`${this.url}/decrement/${id}`, {});
   }
 }

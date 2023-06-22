@@ -32,7 +32,7 @@ export class HomeEcommerceComponent implements OnInit {
       this.products = products;
     });
 
-    this.load();
+    this.loadShoppingCart();
   }
 
   incraseQuantity(id: string) {
@@ -69,7 +69,7 @@ export class HomeEcommerceComponent implements OnInit {
         this.toast.sucess('Produto adicionado com sucesso');
         console.log(cartItem);
         this.cartItem = {};
-        this.load();
+        this.loadShoppingCart();
       });
 
       // se não existe um carrinho de compras
@@ -88,13 +88,13 @@ export class HomeEcommerceComponent implements OnInit {
           this.toast.sucess('Produto adicionado com sucesso');
           console.log(cartItem);
           this.cartItem = {};
-          this.load();
+          this.loadShoppingCart();
         });
       });
     }
   }
 
-  load(): void {
+  loadShoppingCart(): void {
     const id = localStorage.getItem('idShoppingCart') ?? '';
     this.shoppingCartService.getById(id).subscribe((shoppingCart) => {
       this.shoppingCart = shoppingCart;
@@ -103,15 +103,28 @@ export class HomeEcommerceComponent implements OnInit {
   }
 
   dicraseCartItemFromShoppingCart(id: string, cartItem: ICartItem): void {
-    cartItem.quantity ? (cartItem.quantity -= 1) : (cartItem.quantity = 1);
-    this.cartItemService.update(id, cartItem).subscribe(() => {
+    if (cartItem.quantity === 1) {
+      this.deleteCartItem(cartItem);
+      this.loadShoppingCart();
+    } else {
+      this.cartItemService.decrement(id).subscribe(() => {
+        this.loadShoppingCart();
+        this.toast.sucess('Produto atualizado com sucesso');
+      });
+    }
+  }
+
+  incraseCartItemFromShoppingCart(id: string, cartItem: ICartItem): void {
+    this.cartItemService.increment(id).subscribe(() => {
+      this.loadShoppingCart();
       this.toast.sucess('Produto atualizado com sucesso');
     });
   }
-  incraseCartItemFromShoppingCart(id: string, cartItem: ICartItem): void {
-    cartItem.quantity ? (cartItem.quantity += 1) : (cartItem.quantity = 1);
-    this.cartItemService.update(id, cartItem).subscribe(() => {
-      this.toast.sucess('Produto atualizado com sucesso');
+
+  deleteCartItem(cartItem: ICartItem) {
+    this.cartItemService.delete(cartItem._id as string).subscribe(() => {
+      this.loadShoppingCart();
+      this.toast.sucess('Produto removido com sucesso');
     });
   }
 }

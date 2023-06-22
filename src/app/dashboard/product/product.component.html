@@ -1,89 +1,107 @@
-<form class="p-3 rounded-lg shadow">
-  <div class="mb-3">
-    <h1>Produto</h1>
-  </div>
-  <!-- Nome -->
-  <div [classList]="isMobile ? 'flex flex-column gap-3 mb-3' : 'flex gap-3 mb-3' ">
-
-    <div class="flex-2 form-floating">
-      <input type="text" class="form-control" id="nome" placeholder="exemplo" [(ngModel)]="product.name" name="name">
-      <label for="nome">Nome</label>
+<div class="p-3 rounded-lg shadow">
+  <form #productForm="ngForm">
+    <div class="mb-3">
+      <h1>Produto</h1>
     </div>
+    <!-- Nome -->
+    <div [classList]="isMobile ? 'flex flex-column gap-3 mb-3' : 'flex gap-3 mb-3' ">
 
-    <!-- categoria -->
-    <div class="flex-auto form-floating">
-      <select class="form-select" id="floatingSelect" name="idCategory" [(ngModel)]="idCategory"
-        (ngModelChange)="getCategoryName()">
-        <option selected value=""> Selecione uma opção... </option>
-        <option *ngFor="let category of categorys" value={{category._id}}> {{category.name}} </option>
-      </select>
-      <label for="floatingSelect">Categoria</label>
-    </div>
-
-  </div>
-
-  <!-- Descrição -->
-  <div class="form-floating mb-3">
-    <textarea type="text" class="form-control" id="desc" placeholder="exemplo" [(ngModel)]="product.description"
-      name="description"></textarea>
-    <label for="desc">Descrição</label>
-  </div>
-
-  <div [classList]="isMobile ? 'flex flex-column gap-3 mb-3' : 'flex gap-3 mb-3' ">
-
-    <!-- Price -->
-    <div class=" flex-1 input-group">
-      <span class="input-group-text">R$</span>
-      <div class="form-floating">
-        <input type="number" class="form-control" id="price" placeholder="exemplo" [(ngModel)]="product.price"
-          name="price">
-        <label for="price">Preço</label>
+      <div class="flex-2 form-floating">
+        <input type="text" class="form-control" id="nome" placeholder="exemplo" [(ngModel)]="product.name" name="name"
+          required minlength="4" #name="ngModel"
+          [ngClass]="name.invalid && (name.dirty || name.touched) ? 'is-invalid' : ''"
+          [ngClass]="name.valid && (name.dirty || name.touched) ? 'is-valid' : ''">
+        <label for="nome">Nome</label>
+        <div *ngIf="name.errors?.['required'] && (name.dirty || name.touched)" class="invalid-feedback">
+          Nome é obrigatório
+        </div>
+        <div *ngIf="name.errors?.['minlength'] && (name.dirty || name.touched)" class="invalid-feedback">
+          Nome Inválido
+        </div>
       </div>
+
+      <!-- categoria -->
+      <div class="flex-auto form-floating">
+        <select class="form-select" id="floatingSelect" name="idCategory" [(ngModel)]="idCategory"
+          (ngModelChange)="getCategoryName()">
+          <option selected value=""> Selecione uma opção... </option>
+          <option *ngFor="let category of categories$ | async" value={{category._id}}> {{category.name}} </option>
+        </select>
+        <label for="floatingSelect">Categoria</label>
+      </div>
+
     </div>
 
-    <!-- Quantity -->
-    <div class="form-floating flex-1">
-      <input type="number" class="form-control" id="quantity" placeholder="exemplo" [(ngModel)]="product.quantity"
-        name="quantity">
-      <label for="quantity">Quantidade</label>
+    <!-- Descrição -->
+    <div class="form-floating mb-3">
+      <textarea type="text" class="form-control" id="desc" placeholder="exemplo" [(ngModel)]="product.description"
+        name="description"></textarea>
+      <label for="desc">Descrição</label>
     </div>
 
-  </div>
+    <div [classList]="isMobile ? 'flex flex-column gap-3 mb-3' : 'flex gap-3 mb-3' ">
 
-  <div class="flex mb-3 gap-3">
+      <!-- Price -->
+      <div class=" flex-1 input-group">
+        <span class="input-group-text">R$</span>
+        <div class="form-floating">
+          <input type="number" class="form-control" id="price" placeholder="exemplo" [(ngModel)]="product.price"
+            name="price">
+          <label for="price">Preço</label>
+        </div>
+      </div>
 
-    <!-- Image -->
-    <div class="flex-auto form-floating ">
-      <input type="text" class="form-control" id="imageUrl" placeholder="exemplo" [(ngModel)]="imageUrl"
-        name="imageUrl">
-      <label for="imageUrl">URL Imagem</label>
+      <!-- Quantity -->
+      <div class="form-floating flex-1">
+        <input type="number" class="form-control" id="quantity" placeholder="exemplo" [(ngModel)]="product.quantity"
+          name="quantity">
+        <label for="quantity">Quantidade</label>
+      </div>
+
     </div>
 
-    <button class="max-w-max btn btn-outline-dark" (click)="addImage()"><i
-        class="bi bi-plus-square-fill h-full"></i></button>
-  </div>
+    <div class="flex mb-3 gap-3">
 
-  <table class="table" *ngIf="product.imageUrl.length > 0">
-    <thead>
-      <tr>
-        <th scope="col">Imagem</th>
-        <th scope="col">Preview</th>
-        <th scope="col">Ação</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let image of product.imageUrl; let i = index" class="align-middle h-8">
-        <td scope="row">Imagem {{i + 1}} </td>
-        <td>
-          <img src="{{image}}" alt="" class="w-11">
-        </td>
-        <td>
-          <button class="btn btn-dark rounded" (click)="deleteImage(image)">-</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+      <!-- Image -->
+      <div class="flex-auto form-floating ">
+        <input type="text" class="form-control" id="imageUrl" placeholder="exemplo" [(ngModel)]="imageUrl"
+          name="imageUrl">
+        <label for="imageUrl">URL Imagem</label>
+      </div>
 
+      <button class="max-w-max btn btn-outline-dark" (click)="addImage()"><i
+          class="bi bi-plus-square-fill h-full"></i></button>
+    </div>
+
+    <table class="table" *ngIf="product.imageUrl.length > 0">
+      <thead>
+        <tr>
+          <th scope="col">Imagem</th>
+          <th scope="col">Preview</th>
+          <th scope="col">Ação</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let image of product.imageUrl; let i = index" class="align-middle h-8">
+          <td scope="row">Imagem {{i + 1}} </td>
+          <td>
+            <img src="{{image}}" alt="" class="w-11">
+          </td>
+          <td>
+            <button class="btn btn-dark rounded" (click)="deleteImage(image)">-</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+
+    <!-- Actions -->
+    <div class="flex flex-row-reverse justify-start w-full gap-2">
+      <button [disabled]="!productForm.form.valid" class="btn btn-primary" (click)="submit()">SALVAR</button>
+      <button class="btn btn-danger" (click)="cancel()">CANCELAR</button>
+    </div>
+
+  </form>
 
   <!-- preview -->
   <div class="flex justify-center mb-3">
@@ -106,16 +124,9 @@
         <p class="card-text">R$ {{product.price?.toFixed(2)}}</p>
       </div>
     </div>
-
   </div>
 
-  <!-- Actions -->
-  <div class="flex flex-row-reverse justify-start w-full gap-2">
-    <button class="btn btn-primary" (click)="submit()">SALVAR</button>
-    <button class="btn btn-danger" (click)="cancel()">CANCELAR</button>
-  </div>
-
-</form>
+</div>
 
 <div class="rounded-lg shadow mt-4 py-3">
   <div class="form-floating mx-3">
