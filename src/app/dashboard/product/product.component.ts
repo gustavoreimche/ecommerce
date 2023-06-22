@@ -10,6 +10,7 @@ import { IProduct } from 'src/app/shared/models/product.model';
 import { CategoryService } from 'src/app/shared/services/category/category.service';
 import { MobileService } from 'src/app/shared/services/mobile/mobile.service';
 import { ProductService } from 'src/app/shared/services/product/product.service';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic/';
 
 @Component({
   selector: 'app-product',
@@ -31,6 +32,7 @@ export class ProductComponent implements OnInit {
   isEdit = false;
   displayedColumns = ['name', 'description', 'price', 'quantity', 'action'];
   displayedColumnsMobile = ['name', 'price', 'action'];
+  public Editor = ClassicEditor;
 
   constructor(
     private productService: ProductService,
@@ -44,6 +46,10 @@ export class ProductComponent implements OnInit {
     this.categories$ = this.categoryService.getAll().pipe(tap(console.log));
 
     this.mobile.isMobile$.subscribe((isMobile) => (this.isMobile = isMobile));
+  }
+
+  public onChange() {
+    console.log(this.product.description);
   }
 
   submit(): void {
@@ -144,6 +150,7 @@ export class ProductComponent implements OnInit {
       price: null,
       quantity: null,
       description: '',
+      discount: null,
     };
   }
 

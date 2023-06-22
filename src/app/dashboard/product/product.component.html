@@ -33,10 +33,13 @@
     </div>
 
     <!-- Descrição -->
-    <div class="form-floating mb-3">
+    <!-- <div class="form-floating mb-3">
       <textarea type="text" class="form-control" id="desc" placeholder="exemplo" [(ngModel)]="product.description"
         name="description"></textarea>
       <label for="desc">Descrição</label>
+    </div> -->
+    <div class="form-floating mb-3">
+      <ckeditor [(ngModel)]="product.description" [editor]="Editor" [ngModelOptions]="{ standalone: true }"></ckeditor>
     </div>
 
     <div [classList]="isMobile ? 'flex flex-column gap-3 mb-3' : 'flex gap-3 mb-3' ">
@@ -88,7 +91,9 @@
             <img src="{{image}}" alt="" class="w-11">
           </td>
           <td>
-            <button class="btn btn-dark rounded" (click)="deleteImage(image)">-</button>
+            <button (click)="deleteImage(image)"><span class="material-icons">
+                delete_outline
+              </span></button>
           </td>
         </tr>
       </tbody>
@@ -104,7 +109,7 @@
   </form>
 
   <!-- preview -->
-  <div class="flex justify-center mb-3">
+  <div class="flex justify-center mb-3 mt-3">
 
 
     <button class="btn btn-dark" (click)="preview = !preview" *ngIf="!preview">Vizualizar preview</button>
@@ -119,8 +124,8 @@
       </ngb-carousel>
       <div class="card-body">
         <h5 class="card-title">Nome: {{product.name}}</h5>
-        <p class="card-text">Descrição: {{product.description}}</p>
-        <p class="card-text">Categoria: {{product.category?.name}}</p>
+        <div [innerHTML]="product.description" class="w-full"></div>
+        <p class="card-text mt-2">Categoria: {{product.category?.name}}</p>
         <p class="card-text">R$ {{product.price?.toFixed(2)}}</p>
       </div>
     </div>

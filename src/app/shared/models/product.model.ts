@@ -8,5 +8,6 @@ export interface IProduct {
   price: number | null;
   quantity: number | null;
   imageUrl: string[];
+  discount?: number | null;
   quantityCart?: number; // variável apra definir a quantidade de produtos no carrinho
 }

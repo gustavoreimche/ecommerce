@@ -21,6 +21,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { defineElement } from 'lord-icon-element';
 import lottie from 'lottie-web';
 import localePt from '@angular/common/locales/pt';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 
 registerLocaleData(localePt);
 
@@ -46,6 +47,7 @@ registerLocaleData(localePt);
     FormsModule,
     MatCardModule,
     HttpClientModule,
+    CKEditorModule,
   ],
   exports: [ToastContainerComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

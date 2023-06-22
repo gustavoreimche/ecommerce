@@ -118,6 +118,9 @@ export class HomeEcommerceComponent implements OnInit {
     this.cartItemService.increment(id).subscribe(() => {
       this.loadShoppingCart();
       this.toast.sucess('Produto atualizado com sucesso');
+      if (this.shoppingCart.cartItems?.length === 0) {
+        this.deleteShoppingCart();
+      }
     });
   }
 
@@ -125,6 +128,15 @@ export class HomeEcommerceComponent implements OnInit {
     this.cartItemService.delete(cartItem._id as string).subscribe(() => {
       this.loadShoppingCart();
       this.toast.sucess('Produto removido com sucesso');
+    });
+  }
+
+  deleteShoppingCart() {
+    const id = localStorage.getItem('idShoppingCart') ?? '';
+    this.shoppingCartService.delete(id).subscribe(() => {
+      this.shoppingCart = {};
+      this.toast.sucess('Carrinho removido com sucesso');
+      localStorage.removeItem('idShoppingCart');
     });
   }
 }
