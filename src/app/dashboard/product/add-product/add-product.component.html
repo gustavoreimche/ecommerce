@@ -1,4 +1,4 @@
-<div class="p-3 rounded-lg shadow" *ngIf="isEdit">
+<div class="p-3 rounded-lg shadow">
   <form #productForm="ngForm">
     <div class="mb-3">
       <h1>Produto</h1>
@@ -6,7 +6,7 @@
     <!-- Nome -->
     <div [classList]="isMobile ? 'flex flex-column gap-3 mb-3' : 'flex gap-3 mb-3' ">
 
-      <div class="form-floating">
+      <div class="flex-2 form-floating">
         <input type="text" class="form-control" id="nome" placeholder="exemplo" [(ngModel)]="product.name" name="name"
           required minlength="4" #name="ngModel"
           [ngClass]="name.invalid && (name.dirty || name.touched) ? 'is-invalid' : ''"
@@ -21,10 +21,10 @@
       </div>
 
       <!-- categoria -->
-      <div class="form-floating">
+      <div class="flex-auto form-floating">
         <select class="form-select" id="floatingSelect" name="idCategory" [(ngModel)]="idCategory"
           (ngModelChange)="getCategoryName()">
-          <option selected value=""></option>
+          <option selected value=""> Selecione uma opção... </option>
           <option *ngFor="let category of categories$ | async" value={{category._id}}> {{category.name}} </option>
         </select>
         <label for="floatingSelect">Categoria</label>
@@ -33,6 +33,11 @@
     </div>
 
     <!-- Descrição -->
+    <!-- <div class="form-floating mb-3">
+      <textarea type="text" class="form-control" id="desc" placeholder="exemplo" [(ngModel)]="product.description"
+        name="description"></textarea>
+      <label for="desc">Descrição</label>
+    </div> -->
     <div class="form-floating mb-3">
       <ckeditor [(ngModel)]="product.description" [editor]="Editor" [ngModelOptions]="{ standalone: true }"></ckeditor>
     </div>
@@ -103,74 +108,27 @@
 
   </form>
 
-</div>
+  <!-- preview -->
+  <div class="flex justify-center mb-3 mt-3">
 
-<div class="rounded-lg shadow mt-4 py-3">
-  <div class="form-floating mx-3">
-    <input type="email" class="form-control" id="nome" placeholder="Pesquisar..." (keyup)="applyFilter($event)">
-    <label for="nome">Filtro</label>
+
+    <button class="btn btn-dark" (click)="preview = !preview" *ngIf="!preview">Vizualizar preview</button>
+
+    <div class="card shadow" style="width: 18rem;" *ngIf="preview">
+      <ngb-carousel class="h-52">
+        <ng-template ngbSlide *ngFor="let image of product.imageUrl" class="text-black">
+          <div class="picsum-img-wrapper">
+            <img [src]="image" alt="preview" class="card-img-top h-52 object-cover" />
+          </div>
+        </ng-template>
+      </ngb-carousel>
+      <div class="card-body">
+        <h5 class="card-title">Nome: {{product.name}}</h5>
+        <div [innerHTML]="product.description" class="w-full"></div>
+        <p class="card-text mt-2">Categoria: {{product.category?.name}}</p>
+        <p class="card-text">R$ {{product.price?.toFixed(2)}}</p>
+      </div>
+    </div>
   </div>
-  <table mat-table [dataSource]="dataSource" matSort #sort>
-    <!-- Id Column -->
-    <ng-container matColumnDef="id">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Id</th>
-      <td mat-cell *matCellDef="let row">
-        {{ row._id }}
-      </td>
-    </ng-container>
-    <!-- Name Column -->
-    <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Nome</th>
-      <td mat-cell *matCellDef="let row">
-        {{ row.name }}
-      </td>
-    </ng-container>
-    <!-- description Column -->
-    <ng-container matColumnDef="description">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Descrição</th>
-      <td mat-cell *matCellDef="let row">
-        {{ row.description }}
-      </td>
-    </ng-container>
 
-    <!-- price Column -->
-    <ng-container matColumnDef="price">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Preço</th>
-      <td mat-cell *matCellDef="let row">
-        {{ row.price | currency:'BRL':'symbol':'1.2-2':'pt-BR'}}
-      </td>
-    </ng-container>
-
-    <!-- quantity Column -->
-    <ng-container matColumnDef="quantity">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Quantidade</th>
-      <td mat-cell *matCellDef="let row">
-        {{ row.quantity }}
-      </td>
-    </ng-container>
-
-    <!-- Action Column -->
-    <ng-container matColumnDef="action">
-      <th mat-header-cell *matHeaderCellDef>Ações</th>
-      <td mat-cell *matCellDef="let row">
-        <button mat-icon-button (click)="this.edit(row._id)" class="edit">
-          <i class="material-icons">edit</i>
-        </button>
-        <button mat-icon-button (click)="this.delete(row._id)" class="delete">
-          <i class="material-icons">delete</i>
-        </button>
-      </td>
-    </ng-container>
-
-    <tr mat-header-row *matHeaderRowDef="isMobile ? displayedColumnsMobile : displayedColumns"></tr>
-    <tr mat-row *matRowDef="
-        let row;
-        columns: isMobile ? displayedColumnsMobile : displayedColumns
-      "></tr>
-
-    <tr class="mat-row" *matNoDataRow>
-      <td class="mat-cell" colspan="4">Nenhum produto encontrado!</td>
-    </tr>
-  </table>
-  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Paginator"></mat-paginator>
 </div>

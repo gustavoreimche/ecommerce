@@ -1,36 +1,72 @@
-<nav class="sidebar bg-zinc-800 text-white" *ngIf="!isMobile">
-  <div class="nav flex flex-col fs-5">
-    <button class="nav-item flex hover:bg-zinc-700 text-left p-3 focus:bg-zinc-700" routerLink="/admin">
-      <img src="./../../../../assets/icons/system-outline-41-home.svg" class="w-7 h-7 mr-3" />
-      <span>HOME</span>
+<nav class="sidebar bg-zinc-800 text-white" [@slideRight]="templateService.navOpen ? 'open':'closed'">
+  <div class="nav flex flex-col fs-5 fw-bold">
+    <button class="nav-item flex hover:bg-zinc-700 text-left p-3" routerLink="/admin"
+      [ngClass]="botaoAtivo === 'home' ? 'bg-zinc-700' : ''"
+      (click)="definirBotaoAtivo('home'); closeSubNav(); isMobile ? templateService.toggleMenu() : ''">
+      <img src=" ./../../../../assets/icons/system-outline-41-home.svg" class="w-7 h-7 mr-3" />
+      <span>Início</span>
     </button>
-    <button class="nav-item flex hover:bg-zinc-700 text-left p-3 focus:bg-zinc-700" routerLink="/admin/products"
-      routerLinkActive="active">
+    <button class="nav-item flex hover:bg-zinc-700 text-left p-3 " (click)="definirBotaoAtivo(''); toogleSubNav()">
       <img src="./../../../../assets/icons/system-outline-64-shopping-bag.svg" class=" w-7 h-7 mr-3" />
-      <span>PRODUTOS</span>
+      <div class="flex justify-between w-full items-center">
+        <span>Produtos</span>
+        <span class="material-icons">
+          {{ openSubNavProducts ? 'expand_more' : 'chevron_right' }}
+        </span>
+      </div>
     </button>
-    <button class="nav-item flex hover:bg-zinc-700 text-left p-3 focus:bg-zinc-700" routerLink="/admin/categorys"
-      routerLinkActive="active">
-      <img src="./../../../../assets/icons/system-outline-146-label.svg" class="w-7 h-7 mr-3" />
-      <span>CATEGORIAS</span>
+    <div *ngIf="openSubNavProducts" [@slideDown]="openSubNavProducts  ? 'open' : 'closed'">
+
+      <button class="nav-item flex hover:bg-zinc-700 text-left p-3 w-full items-center fw-light"
+        routerLink="/admin/products/add" routerLinkActive="active"
+        [ngClass]="botaoAtivo === 'addproduct' ? 'bg-zinc-700' : ''"
+        (click)="definirBotaoAtivo('addproduct'); isMobile ? templateService.toggleMenu() : ''">
+        <span class="material-icons w-7 h-7 mr-3 align-middle">chevron_right</span>
+        <span>Cadastrar produto</span>
+      </button>
+
+      <button class="nav-item flex hover:bg-zinc-700 text-left p-3 w-full items-center fw-light"
+        routerLink="/admin/products" routerLinkActive="active"
+        [ngClass]="botaoAtivo === 'products' ? 'bg-zinc-700' : ''"
+        (click)="definirBotaoAtivo('products'); isMobile ? templateService.toggleMenu() : ''">
+        <span class="material-icons w-7 h-7 mr-3 align-middle">chevron_right</span>
+        <span>Listar produtos</span>
+      </button>
+
+      <button class="nav-item flex hover:bg-zinc-700 text-left p-3 w-full items-center fw-light"
+        routerLink="/admin/categorys" routerLinkActive="active"
+        [ngClass]="botaoAtivo === 'categorias' ? 'bg-zinc-700' : ''"
+        (click)="definirBotaoAtivo('categorias'); isMobile ? templateService.toggleMenu() : ''">
+        <span class="material-icons w-7 h-7 mr-3 align-middle le">chevron_right</span>
+        <span>Categorias</span>
+      </button>
+
+    </div>
+
+    <button class="nav-item flex hover:bg-zinc-700 text-left p-3" routerLink="/admin/status"
+      [ngClass]="botaoAtivo === 'status' ? 'bg-zinc-700' : ''"
+      (click)="definirBotaoAtivo('status'); closeSubNav(); isMobile ? templateService.toggleMenu() : ''">
+      <img src=" ./../../../../assets/icons/system-outline-41-home.svg" class="w-7 h-7 mr-3" />
+      <span>Satus</span>
     </button>
   </div>
 </nav>
-<nav class="position-fixed h-full left-0 top-14 w-12 bg-zinc-800 text-white" *ngIf="isMobile">
+<!-- <nav class="position-fixed h-full left-0 top-14 w-12 bg-zinc-800 text-white" *ngIf="isMobile">
   <div class="nav flex flex-col fs-6">
-    <button class="nav-item hover:bg-zinc-700 p-2 h-12 focus:bg-zinc-700 text-center" routerLink="/admin">
+    <button class="nav-item hover:bg-zinc-700 p-2 h-12 text-center" routerLink="/admin">
       <lord-icon src="https://cdn.lordicon.com/osuxyevn.json" trigger="click" colors="primary:#ffffff"></lord-icon>
     </button>
-    <button class="nav-item hover:bg-zinc-700 text-center p-2 h-12 focus:bg-zinc-700" routerLink="/admin/products">
+    <button class="nav-item hover:bg-zinc-700 text-center p-2 h-12" routerLink="/admin/products">
       <lord-icon src="https://cdn.lordicon.com/medpcfcy.json" trigger="click" colors="primary:#ffffff"></lord-icon>
     </button>
-    <button class="nav-item hover:bg-zinc-700 text-center p-2 h-12 focus:bg-zinc-700" routerLink="/admin/categorys">
+    <button class="nav-item hover:bg-zinc-700 text-center p-2 h-12" routerLink="/admin/categorys">
       <lord-icon src="https://cdn.lordicon.com/pmegrqxm.json" trigger="click" colors="primary:#ffffff"></lord-icon>
     </button>
   </div>
-</nav>
+</nav>  -->
 <content
-  [classList]="isMobile?'position-fixed top-14 left-12 bottom-0 p-2 content-mobile overflow-auto':'position-fixed top-14 bottom-0 left-64 p-4 overflow-auto content'">
+  [classList]="isMobile?'position-fixed top-14 left-12 bottom-0 p-2 content-mobile overflow-auto':'position-fixed top-14 bottom-0 left-64 p-4 overflow-auto content'"
+  [ngClass]="templateService.navOpen ? '' : ''" [@contentDesk]="templateService.navOpen ? 'open':'closed'">
   <app-toast-container></app-toast-container>
   <router-outlet></router-outlet>
 </content>

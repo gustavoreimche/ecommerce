@@ -22,6 +22,10 @@ import { defineElement } from 'lord-icon-element';
 import lottie from 'lottie-web';
 import localePt from '@angular/common/locales/pt';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { AddProductComponent } from './product/add-product/add-product.component';
+import { StatusComponent } from './status/status.component';
+import { ColorPickerModule } from 'ngx-color-picker';
 
 registerLocaleData(localePt);
 
@@ -36,9 +40,12 @@ registerLocaleData(localePt);
     CategoryComponent,
     HomeDashboardComponent,
     ToastContainerComponent,
+    AddProductComponent,
+    StatusComponent,
   ],
   imports: [
     CommonModule,
+    MatSidenavModule,
     MatTableModule,
     MatSortModule,
     MatPaginatorModule,
@@ -48,6 +55,7 @@ registerLocaleData(localePt);
     MatCardModule,
     HttpClientModule,
     CKEditorModule,
+    ColorPickerModule,
   ],
   exports: [ToastContainerComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

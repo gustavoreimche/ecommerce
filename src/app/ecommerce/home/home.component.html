@@ -16,7 +16,7 @@
 
     <div class="card-body flex flex-col justify-between gap-1">
       <h5 class="card-title">Nome: {{product.name}}</h5>
-      <p class="card-text">Descrição: {{product.description}}</p>
+      <div [innerHTML]="product.description" class="w-full"></div>
       <p class="card-text">Categoria: {{product.category?.name}}</p>
       <p class="card-text">R$ {{product.price?.toFixed(2)}}</p>
       <div class="flex justify-center w-full items-center">

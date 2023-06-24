@@ -1,4 +1,10 @@
-import { Component, ViewChild, OnInit } from '@angular/core';
+import {
+  Component,
+  ViewChild,
+  OnInit,
+  Output,
+  EventEmitter,
+} from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -34,6 +40,8 @@ export class ProductComponent implements OnInit {
   displayedColumnsMobile = ['name', 'price', 'action'];
   public Editor = ClassicEditor;
 
+  @Output() editProduct = new EventEmitter<IProduct>();
+
   constructor(
     private productService: ProductService,
     private categoryService: CategoryService,
@@ -53,11 +61,7 @@ export class ProductComponent implements OnInit {
   }
 
   submit(): void {
-    if (!this.isEdit) {
-      this.createProduct();
-    } else {
-      this.updateProduct();
-    }
+    this.updateProduct();
   }
 
   cancel(): void {
@@ -97,21 +101,6 @@ export class ProductComponent implements OnInit {
       this.product = product;
       this.idCategory = product.category?._id as string;
     });
-  }
-
-  private createProduct(): void {
-    this.getCategoryName();
-    this.productService.create(this.product).subscribe(
-      (response) => {
-        this.toast.sucess('Saved successfully');
-        console.log(response);
-        this.resertForm();
-        this.loadProducts();
-      },
-      (error) => {
-        this.toast.error(error.message);
-      }
-    );
   }
 
   private updateProduct(): void {
