@@ -1,6 +1,6 @@
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:3300/api',
+  apiUrl: 'https://api-ecommerce-6ant.onrender.com/api',
 };
 
 // 192.168.0.104

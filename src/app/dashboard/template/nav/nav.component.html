@@ -43,12 +43,7 @@
 
     </div>
 
-    <button class="nav-item flex hover:bg-zinc-700 text-left p-3" routerLink="/admin/status"
-      [ngClass]="botaoAtivo === 'status' ? 'bg-zinc-700' : ''"
-      (click)="definirBotaoAtivo('status'); closeSubNav(); isMobile ? templateService.toggleMenu() : ''">
-      <img src=" ./../../../../assets/icons/system-outline-41-home.svg" class="w-7 h-7 mr-3" />
-      <span>Satus</span>
-    </button>
+
   </div>
 </nav>
 <!-- <nav class="position-fixed h-full left-0 top-14 w-12 bg-zinc-800 text-white" *ngIf="isMobile">

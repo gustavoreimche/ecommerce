@@ -99,14 +99,14 @@ export class ProductComponent implements OnInit {
     this.isEdit = true;
     this.productService.getById(id).subscribe((product) => {
       this.product = product;
-      this.idCategory = product.category?._id as string;
+      this.idCategory = product.category?.id as string;
     });
   }
 
   private updateProduct(): void {
     this.getCategoryName();
     this.productService
-      .update(this.product._id as string, this.product)
+      .update(this.product.id as string, this.product)
       .subscribe(
         (response) => {
           this.toast.sucess('Saved successfully');
@@ -125,7 +125,7 @@ export class ProductComponent implements OnInit {
   getCategoryName(): void {
     this.categories$.subscribe((categories) => {
       const selectedCategory = categories.find(
-        (category) => category._id === this.idCategory
+        (category) => category.id === this.idCategory
       );
       this.product.category = selectedCategory || null;
     });

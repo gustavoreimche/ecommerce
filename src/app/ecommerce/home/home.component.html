@@ -18,11 +18,11 @@
       <h5 class="card-title">Nome: {{product.name}}</h5>
       <div [innerHTML]="product.description" class="w-full"></div>
       <p class="card-text">Categoria: {{product.category?.name}}</p>
-      <p class="card-text">R$ {{product.price?.toFixed(2)}}</p>
+      <p class="card-text">{{product.price | currency:'BRL':'symbol':'1.2-2':'pt-BR'}}</p>
       <div class="flex justify-center w-full items-center">
-        <button class="btn btn-dark rounded" (click)="dicraseQuantity(product._id ? product._id : '')">-</button>
+        <button class="btn btn-dark rounded" (click)="dicraseQuantity(product.id ? product.id : '')">-</button>
         <span class="mx-2">{{product.quantityCart}}</span>
-        <button class="btn btn-dark rounded" (click)="incraseQuantity(product._id ? product._id : '')">+</button>
+        <button class="btn btn-dark rounded" (click)="incraseQuantity(product.id ? product.id : '')">+</button>
       </div>
       <div class="flex justify-center items-end w-full">
         <button class="btn btn-primary" (click)="addToCart(product)">Adicionar ao Carrinho</button>

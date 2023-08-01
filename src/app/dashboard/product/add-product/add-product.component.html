@@ -25,7 +25,7 @@
         <select class="form-select" id="floatingSelect" name="idCategory" [(ngModel)]="idCategory"
           (ngModelChange)="getCategoryName()">
           <option selected value=""> Selecione uma opção... </option>
-          <option *ngFor="let category of categories$ | async" value={{category._id}}> {{category.name}} </option>
+          <option *ngFor="let category of categories$ | async" value={{category.id}}> {{category.name}} </option>
         </select>
         <label for="floatingSelect">Categoria</label>
       </div>

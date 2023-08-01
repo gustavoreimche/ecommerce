@@ -37,7 +37,7 @@ export class HomeEcommerceComponent implements OnInit {
 
   incraseQuantity(id: string) {
     this.products.map((product) => {
-      if (product._id === id) {
+      if (product.id === id) {
         product.quantityCart
           ? (product.quantityCart += 1)
           : (product.quantityCart = 1);
@@ -47,7 +47,7 @@ export class HomeEcommerceComponent implements OnInit {
 
   dicraseQuantity(id: string) {
     this.products.map((product) => {
-      if (product._id === id) {
+      if (product.id === id) {
         product.quantityCart
           ? (product.quantityCart -= 1)
           : (product.quantityCart = 1);

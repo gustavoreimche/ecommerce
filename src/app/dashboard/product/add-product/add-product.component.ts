@@ -69,10 +69,10 @@ export class AddProductComponent {
   getCategoryName(): void {
     this.categories$.subscribe((categories) => {
       const selectedCategory = categories.find(
-        (category) => category._id === this.idCategory
+        (category) => category.id === this.idCategory
       );
       this.product.category = selectedCategory || null;
-      console.log(selectedCategory)
+      console.log(selectedCategory);
     });
   }
 
@@ -84,7 +84,7 @@ export class AddProductComponent {
       price: null,
       quantity: null,
       description: '',
-      discount: null,
+      discount: 0,
     };
   }
 

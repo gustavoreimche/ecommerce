@@ -1,7 +1,7 @@
 import { ICategory } from './category.model';
 
 export interface IProduct {
-  _id?: string;
+  id?: string;
   name: string;
   category: ICategory | null;
   description: string;

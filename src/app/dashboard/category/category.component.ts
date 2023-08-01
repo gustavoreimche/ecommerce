@@ -56,13 +56,13 @@ export class CategoryComponent implements OnInit {
     } else {
       console.log(this.category);
       this.categoryService
-        .update(this.category._id as string, this.category)
+        .update(this.category.id as string, this.category)
         .subscribe(
           (response) => {
             this.toast.sucess('Saved successfully');
             console.log(response);
             this.category = {
-              _id: '',
+              id: '',
               name: '',
               description: '',
             };
@@ -86,7 +86,6 @@ export class CategoryComponent implements OnInit {
     this.categoryService.getAll().subscribe(
       (response) => {
         this.categorys = response;
-        console.log(response);
         this.dataSource = new MatTableDataSource(response);
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;

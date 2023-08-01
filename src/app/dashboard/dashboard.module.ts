@@ -24,7 +24,6 @@ import localePt from '@angular/common/locales/pt';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { AddProductComponent } from './product/add-product/add-product.component';
-import { StatusComponent } from './status/status.component';
 import { ColorPickerModule } from 'ngx-color-picker';
 
 registerLocaleData(localePt);
@@ -41,7 +40,6 @@ registerLocaleData(localePt);
     HomeDashboardComponent,
     ToastContainerComponent,
     AddProductComponent,
-    StatusComponent,
   ],
   imports: [
     CommonModule,
