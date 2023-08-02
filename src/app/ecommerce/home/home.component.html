@@ -6,9 +6,9 @@
   <div class="card shadow" style="width: 18rem;" *ngFor="let product of products">
 
     <ngb-carousel class="h-52">
-      <ng-template ngbSlide *ngFor="let image of product.imageUrl" class="text-black">
+      <ng-template ngbSlide *ngFor="let image of product.Images" class="text-black">
         <div class="picsum-img-wrapper">
-          <img [src]="image" alt="preview" class="card-img-top h-52 object-cover" />
+          <img [src]="image.url" alt="preview" class="card-img-top h-52 object-cover" />
         </div>
       </ng-template>
     </ngb-carousel>

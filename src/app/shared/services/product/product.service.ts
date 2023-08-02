@@ -35,4 +35,12 @@ export class ProductService {
   getById(id: string): Observable<IProduct> {
     return this.http.get<IProduct>(`${this.url}/${id}`);
   }
+
+  upload(file: File): Observable<any> {
+    const formData = new FormData();
+
+    formData.append('file', file, file.name);
+
+    return this.http.post<any>(this.url + '/upload/image', formData);
+  }
 }

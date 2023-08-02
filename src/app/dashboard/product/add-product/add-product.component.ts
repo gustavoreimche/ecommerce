@@ -1,7 +1,7 @@
 import { tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { Component } from '@angular/core';
-import { IProduct } from 'src/app/shared/models/product.model';
+import { IImage, IProduct } from 'src/app/shared/models/product.model';
 import { ICategory } from 'src/app/shared/models/category.model';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { ProductService } from 'src/app/shared/services/product/product.service';
@@ -16,13 +16,13 @@ import { MobileService } from 'src/app/shared/services/mobile/mobile.service';
 })
 export class AddProductComponent {
   isMobile = false;
-  imageUrl = '';
   product: IProduct = this.initializeProduct();
   idCategory = '';
   preview = false;
   products: IProduct[] = [];
   categories$!: Observable<ICategory[]>;
   public Editor = ClassicEditor;
+  file: File | null = null;
 
   constructor(
     private productService: ProductService,
@@ -47,13 +47,14 @@ export class AddProductComponent {
 
   cancel(): void {
     this.product = this.initializeProduct();
-    this.imageUrl = '';
     this.idCategory = '';
     this.preview = false;
+    this.file = null;
   }
 
   private createProduct(): void {
     this.getCategoryName();
+    console.log(this.product);
     this.productService.create(this.product).subscribe(
       (response) => {
         this.toast.sucess('Saved successfully');
@@ -80,7 +81,7 @@ export class AddProductComponent {
     return {
       name: '',
       category: null,
-      imageUrl: [],
+      Images: [],
       price: null,
       quantity: null,
       description: '',
@@ -90,19 +91,35 @@ export class AddProductComponent {
 
   private resertForm(): void {
     this.product = this.initializeProduct();
-    this.imageUrl = '';
     this.idCategory = '';
     this.preview = false;
+    this.file = null;
   }
 
   // Adiciona uma imagem à lista de imagens do produto
-  addImage() {
-    this.product.imageUrl.push(this.imageUrl);
-    this.imageUrl = '';
+  addImage(event: any) {
+    // this.product.imageUrl.push(this.imageUrl);
+    // this.imageUrl = '';
+    if (this.file) {
+      console.log(this.file);
+      this.productService.upload(this.file).subscribe((response) => {
+        console.log(response);
+        this.product.Images.push(response);
+        this.file = null;
+      });
+    }
+  }
+
+  onFileSelected(event: any) {
+    // Extract the selected file from the event
+    const selectedFile: File = event.target.files[0];
+    // You can now perform any actions with the selected file, such as uploading it using a service
+    console.log('Selected file:', selectedFile);
+    this.file = selectedFile;
   }
 
   // Remove uma imagem da lista de imagens do produto
-  deleteImage(imageUrl: string) {
-    this.product.imageUrl.splice(this.product.imageUrl.indexOf(imageUrl), 1);
+  deleteImage() {
+    // this.product.imageUrl.splice(this.product.imageUrl.indexOf(imageUrl), 1);
   }
 }

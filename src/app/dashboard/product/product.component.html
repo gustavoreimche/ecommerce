@@ -58,20 +58,22 @@
 
     </div>
 
-    <div class="flex mb-3 gap-3">
+    <div class="flex mb-3 gap-3 w-full items-center">
 
       <!-- Image -->
-      <div class="flex-auto form-floating ">
-        <input type="text" class="form-control" id="imageUrl" placeholder="exemplo" [(ngModel)]="imageUrl"
-          name="imageUrl">
-        <label for="imageUrl">URL Imagem</label>
+      <div>
+        <label for="fileInput" class="custom-file-input" class="rounded-lg border p-2 cursor-pointer">
+          Selecione uma imagem
+        </label>
+        <input type="file" id="fileInput" class="d-none" accept="image/*" (change)="onFileSelected($event)">
+        <span *ngIf="file"> {{ file.name }} </span>
       </div>
 
-      <button class="max-w-max btn btn-outline-dark" (click)="addImage()"><i
+      <button class="max-w-max btn btn-outline-dark" (click)="addImage($event)"><i
           class="bi bi-plus-square-fill h-full"></i></button>
     </div>
 
-    <table class="table" *ngIf="product.imageUrl.length > 0">
+    <table class="table">
       <thead>
         <tr>
           <th scope="col">Imagem</th>
@@ -80,13 +82,13 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let image of product.imageUrl; let i = index" class="align-middle h-8">
+        <tr *ngFor="let image of product.Images; let i = index" class="align-middle h-8">
           <td scope="row">Imagem {{i + 1}} </td>
           <td>
-            <img src="{{image}}" alt="" class="w-11">
+            <img src="{{image.url}}" alt="" class="w-11">
           </td>
           <td>
-            <button (click)="deleteImage(image)"><span class="material-icons">
+            <button><span class="material-icons">
                 delete_outline
               </span></button>
           </td>
@@ -104,8 +106,11 @@
   </form>
 
 </div>
+<div class="loading" class="flex justify-center items-center h-full" *ngIf="isLoading">
+  <div class="lds-dual-ring"></div>
+</div>
 
-<div class="rounded-lg shadow mt-4 py-3">
+<div class="rounded-lg shadow mt-4 py-3" *ngIf="!isLoading">
   <div class="form-floating mx-3">
     <input type="email" class="form-control" id="nome" placeholder="Pesquisar..." (keyup)="applyFilter($event)">
     <label for="nome">Filtro</label>

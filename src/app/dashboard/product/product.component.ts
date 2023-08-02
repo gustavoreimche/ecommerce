@@ -39,6 +39,7 @@ export class ProductComponent implements OnInit {
   displayedColumns = ['name', 'description', 'price', 'quantity', 'action'];
   displayedColumnsMobile = ['name', 'price', 'action'];
   public Editor = ClassicEditor;
+  file!: File;
 
   @Output() editProduct = new EventEmitter<IProduct>();
 
@@ -49,7 +50,11 @@ export class ProductComponent implements OnInit {
     private mobile: MobileService
   ) {}
 
+  isLoading = false;
+
   ngOnInit(): void {
+    this.isLoading = true;
+
     this.loadProducts();
     this.categories$ = this.categoryService.getAll().pipe(tap(console.log));
 
@@ -73,9 +78,12 @@ export class ProductComponent implements OnInit {
   }
 
   loadProducts(): void {
-    this.productService
-      .getAll()
-      .subscribe((response) => this.updateProductTable(response));
+    this.productService.getAll().subscribe((response) => {
+      this.updateProductTable(response);
+      setTimeout(() => {
+        this.isLoading = false;
+      }, 1000);
+    });
   }
 
   applyFilter(event: Event): void {
@@ -135,7 +143,7 @@ export class ProductComponent implements OnInit {
     return {
       name: '',
       category: null,
-      imageUrl: [],
+      Images: [],
       price: null,
       quantity: null,
       description: '',
@@ -157,14 +165,29 @@ export class ProductComponent implements OnInit {
     this.dataSource.paginator = this.paginator;
   }
 
-  // Adiciona uma imagem à lista de imagens do produto
-  addImage() {
-    this.product.imageUrl.push(this.imageUrl);
-    this.imageUrl = '';
+  addImage(event: any) {
+    // this.product.imageUrl.push(this.imageUrl);
+    // this.imageUrl = '';
+    if (this.file) {
+      console.log(this.file);
+      this.productService.upload(this.file).subscribe((response) => {
+        console.log(response);
+        this.product.Images.push(response);
+        event.target.value = '';
+      });
+    }
+  }
+
+  onFileSelected(event: any) {
+    // Extract the selected file from the event
+    const selectedFile: File = event.target.files[0];
+    // You can now perform any actions with the selected file, such as uploading it using a service
+    console.log('Selected file:', selectedFile);
+    this.file = selectedFile;
   }
 
   // Remove uma imagem da lista de imagens do produto
-  deleteImage(imageUrl: string) {
-    this.product.imageUrl.splice(this.product.imageUrl.indexOf(imageUrl), 1);
+  deleteImage() {
+    // this.product.imageUrl.splice(this.product.imageUrl.indexOf(imageUrl), 1);
   }
 }

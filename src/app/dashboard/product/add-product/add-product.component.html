@@ -63,20 +63,22 @@
 
     </div>
 
-    <div class="flex mb-3 gap-3">
+    <div class="flex mb-3 gap-3 w-full items-center">
 
       <!-- Image -->
-      <div class="flex-auto form-floating ">
-        <input type="text" class="form-control" id="imageUrl" placeholder="exemplo" [(ngModel)]="imageUrl"
-          name="imageUrl">
-        <label for="imageUrl">URL Imagem</label>
+      <div>
+        <label for="fileInput" class="custom-file-input" class="rounded-lg border p-2 cursor-pointer">
+          Selecione uma imagem
+        </label>
+        <input type="file" id="fileInput" class="d-none" accept="image/*" (change)="onFileSelected($event)">
+        <span *ngIf="file"> {{ file.name }} </span>
       </div>
 
-      <button class="max-w-max btn btn-outline-dark" (click)="addImage()"><i
+      <button class="max-w-max btn btn-outline-dark" (click)="addImage($event)"><i
           class="bi bi-plus-square-fill h-full"></i></button>
     </div>
 
-    <table class="table" *ngIf="product.imageUrl.length > 0">
+    <table class="table" *ngIf="product.Images.length > 0">
       <thead>
         <tr>
           <th scope="col">Imagem</th>
@@ -85,13 +87,13 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let image of product.imageUrl; let i = index" class="align-middle h-8">
+        <tr *ngFor="let image of product.Images; let i = index" class="align-middle h-8">
           <td scope="row">Imagem {{i + 1}} </td>
           <td>
-            <img src="{{image}}" alt="" class="w-11">
+            <img src="{{image.url}}" alt="" class="w-11">
           </td>
           <td>
-            <button (click)="deleteImage(image)"><span class="material-icons">
+            <button><span class="material-icons">
                 delete_outline
               </span></button>
           </td>
@@ -116,9 +118,9 @@
 
     <div class="card shadow" style="width: 18rem;" *ngIf="preview">
       <ngb-carousel class="h-52">
-        <ng-template ngbSlide *ngFor="let image of product.imageUrl" class="text-black">
+        <ng-template ngbSlide *ngFor="let image of product.Images" class="text-black">
           <div class="picsum-img-wrapper">
-            <img [src]="image" alt="preview" class="card-img-top h-52 object-cover" />
+            <img [src]="image.url" alt="preview" class="card-img-top h-52 object-cover" />
           </div>
         </ng-template>
       </ngb-carousel>
