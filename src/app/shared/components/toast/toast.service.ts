@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 export class ToastService {
   toasts: any[] = [];
 
-  sucess(msg: string) {
+  success(msg: string) {
     this.toasts.push({ msg, class: 'bg-success text-light' });
   }
   error(msg: string) {

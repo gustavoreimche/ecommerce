@@ -41,6 +41,9 @@ export class ProductService {
 
     formData.append('file', file, file.name);
 
-    return this.http.post<any>(this.url + '/upload/image', formData);
+    return this.http.post<any>(this.url + '/upload/image', formData, {
+      observe: 'events',
+      reportProgress: true
+    });
   }
 }

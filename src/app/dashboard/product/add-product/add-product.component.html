@@ -74,8 +74,13 @@
         <span *ngIf="file"> {{ file.name }} </span>
       </div>
 
-      <button class="max-w-max btn btn-outline-dark" (click)="addImage($event)"><i
+      <button class="max-w-max btn btn-outline-dark" (click)="addImage()"><i
           class="bi bi-plus-square-fill h-full"></i></button>
+
+      <div class="w-full bg-gray-200 rounded-full dark:bg-gray-700" *ngIf="progress != 0">
+        <div class="bg-blue-600 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full"
+          [style.width]="progress + '%'"> {{progress}}% </div>
+      </div>
     </div>
 
     <table class="table" *ngIf="product.Images.length > 0">

@@ -1,13 +1,13 @@
-import { tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { Component } from '@angular/core';
-import { IImage, IProduct } from 'src/app/shared/models/product.model';
+import { IProduct } from 'src/app/shared/models/product.model';
 import { ICategory } from 'src/app/shared/models/category.model';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { ProductService } from 'src/app/shared/services/product/product.service';
 import { CategoryService } from 'src/app/shared/services/category/category.service';
 import { ToastService } from 'src/app/shared/components/toast/toast.service';
 import { MobileService } from 'src/app/shared/services/mobile/mobile.service';
+import { HttpEvent, HttpEventType } from '@angular/common/http';
 
 @Component({
   selector: 'app-add-product',
@@ -23,6 +23,7 @@ export class AddProductComponent {
   categories$!: Observable<ICategory[]>;
   public Editor = ClassicEditor;
   file: File | null = null;
+  progress = 0;
 
   constructor(
     private productService: ProductService,
@@ -32,8 +33,6 @@ export class AddProductComponent {
   ) {}
 
   ngOnInit(): void {
-    this.categories$ = this.categoryService.getAll().pipe(tap(console.log));
-
     this.mobile.isMobile$.subscribe((isMobile) => (this.isMobile = isMobile));
   }
 
@@ -57,9 +56,9 @@ export class AddProductComponent {
     console.log(this.product);
     this.productService.create(this.product).subscribe(
       (response) => {
-        this.toast.sucess('Saved successfully');
+        this.toast.success('Saved successfully');
         console.log(response);
-        this.resertForm();
+        this.resetForm();
       },
       (error) => {
         this.toast.error(error.message);
@@ -88,8 +87,7 @@ export class AddProductComponent {
       discount: 0,
     };
   }
-
-  private resertForm(): void {
+  private resetForm(): void {
     this.product = this.initializeProduct();
     this.idCategory = '';
     this.preview = false;
@@ -97,25 +95,36 @@ export class AddProductComponent {
   }
 
   // Adiciona uma imagem à lista de imagens do produto
-  addImage(event: any) {
+  addImage() {
     // this.product.imageUrl.push(this.imageUrl);
     // this.imageUrl = '';
     if (this.file) {
       console.log(this.file);
-      this.productService.upload(this.file).subscribe((response) => {
-        console.log(response);
-        this.product.Images.push(response);
-        this.file = null;
-      });
+      this.productService
+        .upload(this.file)
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        .subscribe((response: HttpEvent<any>) => {
+          console.log(response);
+          if (response.type === HttpEventType.Response) {
+            this.product.Images.push(response.body);
+          } else if (response.type === HttpEventType.UploadProgress) {
+            const percentDone =
+              Math.round(response.loaded * 100) / (response.total ?? 1);
+            this.progress = percentDone;
+          }
+          this.file = null;
+        });
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onFileSelected(event: any) {
     // Extract the selected file from the event
     const selectedFile: File = event.target.files[0];
     // You can now perform any actions with the selected file, such as uploading it using a service
     console.log('Selected file:', selectedFile);
     this.file = selectedFile;
+    this.progress = 0;
   }
 
   // Remove uma imagem da lista de imagens do produto
