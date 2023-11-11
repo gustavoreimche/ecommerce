@@ -119,10 +119,7 @@ export class AddProductComponent {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onFileSelected(event: any) {
-    // Extract the selected file from the event
     const selectedFile: File = event.target.files[0];
-    // You can now perform any actions with the selected file, such as uploading it using a service
-    console.log('Selected file:', selectedFile);
     this.file = selectedFile;
     this.progress = 0;
   }
